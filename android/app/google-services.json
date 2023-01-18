@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "1010579740734",
+    "project_id": "tracebee-128c8",
+    "storage_bucket": "tracebee-128c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010579740734:android:dc26fc1a142937d563596f",
+        "android_client_info": {
+          "package_name": "com.example.traceebee_admin_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1010579740734-nepjn2bpre8jhobq8c6eiup8ipqoofvj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPg1IKGt3N_djkUf13g4ee1vCWc-ZUxoU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1010579740734-nepjn2bpre8jhobq8c6eiup8ipqoofvj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1010579740734-qr1uuksq36ns5r838245jd74s3usrgl0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.traceebeeUsersApp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010579740734:android:6f7f2a9915c31d0563596f",
+        "android_client_info": {
+          "package_name": "com.example.traceebee_users_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1010579740734-nepjn2bpre8jhobq8c6eiup8ipqoofvj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPg1IKGt3N_djkUf13g4ee1vCWc-ZUxoU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1010579740734-nepjn2bpre8jhobq8c6eiup8ipqoofvj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1010579740734-qr1uuksq36ns5r838245jd74s3usrgl0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.traceebeeUsersApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
