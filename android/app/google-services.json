@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1010579740734:android:dc26fc1a142937d563596f",
+        "mobilesdk_app_id": "1:1010579740734:android:38fe0cc7da0f2faa63596f",
         "android_client_info": {
-          "package_name": "com.example.traceebee_admin_app"
+          "package_name": "com.tracebee.admin"
         }
       },
       "oauth_client": [
@@ -31,10 +31,10 @@
               "client_type": 3
             },
             {
-              "client_id": "1010579740734-qr1uuksq36ns5r838245jd74s3usrgl0.apps.googleusercontent.com",
+              "client_id": "1010579740734-23d1af4v41bhan329at3k9m66p0g6hrj.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.traceebeeUsersApp"
+                "bundle_id": "com.example.traceebeeAdminApp"
               }
             }
           ]
@@ -43,9 +43,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1010579740734:android:6f7f2a9915c31d0563596f",
+        "mobilesdk_app_id": "1:1010579740734:android:c3c477edc406442263596f",
         "android_client_info": {
-          "package_name": "com.example.traceebee_users_app"
+          "package_name": "com.tracebee.user"
         }
       },
       "oauth_client": [
@@ -67,10 +67,10 @@
               "client_type": 3
             },
             {
-              "client_id": "1010579740734-qr1uuksq36ns5r838245jd74s3usrgl0.apps.googleusercontent.com",
+              "client_id": "1010579740734-23d1af4v41bhan329at3k9m66p0g6hrj.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.traceebeeUsersApp"
+                "bundle_id": "com.example.traceebeeAdminApp"
               }
             }
           ]

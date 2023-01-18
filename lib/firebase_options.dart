@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -46,18 +49,9 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyD8EmDRtxsCAVDrdCzNVAVQD8ZW_u9DyB8',
-    appId: '1:1010579740734:web:0742593360110d3663596f',
-    messagingSenderId: '1010579740734',
-    projectId: 'tracebee-128c8',
-    authDomain: 'tracebee-128c8.firebaseapp.com',
-    storageBucket: 'tracebee-128c8.appspot.com',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDPg1IKGt3N_djkUf13g4ee1vCWc-ZUxoU',
-    appId: '1:1010579740734:android:dc26fc1a142937d563596f',
+    appId: '1:1010579740734:android:38fe0cc7da0f2faa63596f',
     messagingSenderId: '1010579740734',
     projectId: 'tracebee-128c8',
     storageBucket: 'tracebee-128c8.appspot.com',
@@ -65,11 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDhNoymYaRHN8iTyYamiS4ztRLfFwd3RWg',
-    appId: '1:1010579740734:ios:ba78344c47c8fbeb63596f',
+    appId: '1:1010579740734:ios:e826b34692cb751d63596f',
     messagingSenderId: '1010579740734',
     projectId: 'tracebee-128c8',
     storageBucket: 'tracebee-128c8.appspot.com',
-    iosClientId: '1010579740734-23d1af4v41bhan329at3k9m66p0g6hrj.apps.googleusercontent.com',
-    iosBundleId: 'com.example.traceebeeAdminApp',
+    iosClientId: '1010579740734-ghpruerrsgeg4tgd3rpjbtpg2lcvllss.apps.googleusercontent.com',
+    iosBundleId: 'com.tracebee.admin',
   );
 }

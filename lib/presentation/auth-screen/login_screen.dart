@@ -4,9 +4,62 @@ import 'package:traceebee_admin_app/presentation/home-screen/home_screen.dart';
 import 'package:traceebee_admin_app/presentation/widgets/custom_textfield.dart';
 import 'package:traceebee_admin_app/utlis/colors.dart';
 import 'package:traceebee_admin_app/utlis/text_styles.dart';
+import 'package:traceebee_admin_app/utlis/utility.dart';
 
-class LoginScreen extends StatelessWidget {
+import '../../services/firebase_auth_service.dart';
+
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  late TextEditingController passwordController;
+  late TextEditingController emailController;
+
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    passwordController = TextEditingController();
+    emailController = TextEditingController();
+  }
+
+  bool validate() {
+    if (emailController.text.isEmpty && passwordController.text.isEmpty) {
+      showSnackBar(context, text: 'Please fill all fields');
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  void login() async {
+    if (validate()) {
+      setState(() => isLoading = true);
+
+      var res = await FirebaseAuthService().login(
+          email: emailController.text, password: passwordController.text);
+
+      if (res == 'success') {
+        setState(() => isLoading = false);
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const HomeScreen(),
+          ),
+        );
+      } else {
+        setState(() => isLoading = false);
+        // ignore: use_build_context_synchronously
+        showSnackBar(context, text: res);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,14 +110,16 @@ class LoginScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(
                 children: [
-                  const CustomTextfield(
+                  CustomTextfield(
                     hintText: 'Enter your email',
+                    controller: emailController,
                   ),
                   SizedBox(
                     height: 30.h,
                   ),
-                  const CustomTextfield(
+                  CustomTextfield(
                     hintText: 'Enter your password',
+                    controller: passwordController,
                   ),
                 ],
               ),
@@ -73,26 +128,21 @@ class LoginScreen extends StatelessWidget {
               height: 50.h,
             ),
             InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const HomeScreen(),
-                  ),
-                );
-              },
+              onTap: () => login(),
               child: Container(
                 height: 40.h,
                 width: 320.w,
                 color: darkgreenColor,
                 child: Center(
-                  child: Text(
-                    "Login",
-                    style: headingStyle.copyWith(
-                      color: Colors.white,
-                      fontSize: 15.sp,
-                    ),
-                  ),
+                  child: isLoading
+                      ? const CircularProgressIndicator()
+                      : Text(
+                          "Login",
+                          style: headingStyle.copyWith(
+                            color: Colors.white,
+                            fontSize: 15.sp,
+                          ),
+                        ),
                 ),
               ),
             ),

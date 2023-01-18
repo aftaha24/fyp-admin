@@ -4,17 +4,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:traceebee_admin_app/firebase_options.dart';
 import 'package:traceebee_admin_app/presentation/auth-screen/login_screen.dart';
+import 'package:traceebee_admin_app/presentation/home-screen/home_screen.dart';
 import 'package:traceebee_admin_app/providers/providers.dart';
+import 'package:traceebee_admin_app/services/local_shared_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  bool isLoggedIn =
+      await LocalService().getSharedToken() == null ? false : true;
+  runApp(MyApp(
+    isLoggedIn: isLoggedIn,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isLoggedIn;
+  const MyApp({super.key, required this.isLoggedIn});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -28,7 +35,7 @@ class MyApp extends StatelessWidget {
             home: child,
           );
         },
-        child: const LoginScreen(),
+        child: isLoggedIn ? const HomeScreen() : const LoginScreen(),
       ),
     );
   }

@@ -1,4 +1,4 @@
-package com.example.traceebee_admin_app
+package com.tracebee.admin
 
 import io.flutter.embedding.android.FlutterActivity
 
