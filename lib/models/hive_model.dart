@@ -21,7 +21,7 @@ class HiveModel {
       'location': location,
       'createdAt': createdAt,
       'driveLink': driveLink,
-      'userID': userID,
+      'userName': userID,
       'amountHoney': amountHoney,
     };
   }
@@ -33,7 +33,7 @@ class HiveModel {
       location: map['location'] != null ? map['location'] as String : null,
       createdAt: map['createdAt'] != null ? map['createdAt'] as String : null,
       driveLink: map['driveLink'] != null ? map['driveLink'] as String : null,
-      userID: map['userID'] != null ? map['userID'] as String : null,
+      userID: map['userName'] != null ? map['userName'] as String : null,
       amountHoney:
           map['amountHoney'] != null ? map['amountHoney'] as String : null,
     );

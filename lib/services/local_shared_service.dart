@@ -16,4 +16,5 @@ class LocalService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
   }
+  
 }

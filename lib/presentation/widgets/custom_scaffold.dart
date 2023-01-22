@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:traceebee_admin_app/presentation/auth-screen/login_screen.dart';
 import 'package:traceebee_admin_app/presentation/home-screen/about_us_screen.dart';
 import 'package:traceebee_admin_app/presentation/home-screen/beekeepers_info_screen.dart';
 import 'package:traceebee_admin_app/presentation/home-screen/home_screen.dart';
 import 'package:traceebee_admin_app/presentation/home-screen/stingless_bee_info_screen.dart';
 import 'package:traceebee_admin_app/providers/home-provider/home_provider.dart';
+import 'package:traceebee_admin_app/services/local_shared_service.dart';
 import 'package:traceebee_admin_app/utlis/colors.dart';
 import 'package:traceebee_admin_app/utlis/text_styles.dart';
 
@@ -209,9 +211,20 @@ class CustomScaffold extends StatelessWidget {
                               SizedBox(
                                 height: 20.h,
                               ),
-                              Text(
-                                "LOG OUT",
-                                style: headingStyle.copyWith(fontSize: 20.sp),
+                              InkWell(
+                                onTap: () {
+                                  LocalService().removeSharedService();
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const LoginScreen(),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  "LOG OUT",
+                                  style: headingStyle.copyWith(fontSize: 20.sp),
+                                ),
                               ),
                             ],
                           ),
