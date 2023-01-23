@@ -44,6 +44,7 @@ class _UserScreenState extends State<UserScreen> {
   void initState() {
     super.initState();
     log(widget.hive.userID!);
+    listenForChanges();
   }
 
   @override
@@ -59,6 +60,9 @@ class _UserScreenState extends State<UserScreen> {
             child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: SfCartesianChart(
+                  palette: [
+                    Colors.teal,
+                  ],
                   title: ChartTitle(
                       text: 'Hive ${widget.hive.hiveNumber!}',
                       textStyle: const TextStyle(color: Colors.white)),
@@ -66,6 +70,7 @@ class _UserScreenState extends State<UserScreen> {
                   series: <ChartSeries<HiveData, String>>[
                     ColumnSeries<HiveData, String>(
                         // Bind data source
+                        // color: Colors.red,
                         dataSource: hiveData,
                         xValueMapper: (HiveData sales, _) => sales.year,
                         yValueMapper: (HiveData sales, _) => sales.amount)
