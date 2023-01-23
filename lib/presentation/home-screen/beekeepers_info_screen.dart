@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 import 'package:traceebee_admin_app/models/hive_model.dart';
-import 'package:traceebee_admin_app/presentation/user-screens/user_screen.dart';
 import 'package:traceebee_admin_app/presentation/widgets/custom_scaffold.dart';
-import 'package:traceebee_admin_app/providers/home-provider/home_provider.dart';
 import 'package:traceebee_admin_app/services/firestore_service.dart';
 import 'package:traceebee_admin_app/utlis/text_styles.dart';
+
+import '../user-screens/user_screen.dart';
 
 class BeeKeepersInfoScreen extends StatelessWidget {
   const BeeKeepersInfoScreen({super.key});
@@ -34,13 +33,12 @@ class BeeKeepersInfoScreen extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 1.w),
                       child: InkWell(
                         onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (_) =>
-                          //         UserScreen(beeKeepersEnitity: hive),
-                          //   ),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => UserScreen(hive: hive),
+                            ),
+                          );
                         },
                         child: Container(
                           height: 155.h,
@@ -69,7 +67,7 @@ class BeeKeepersInfoScreen extends StatelessWidget {
                                       SizedBox(
                                         width: 180,
                                         child: Text(
-                                          "USER : ${hive.userID}",
+                                          "USER : ${hive.userName}",
                                           style: subHeadingStyle,
                                           overflow: TextOverflow.clip,
                                         ),

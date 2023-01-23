@@ -16,4 +16,20 @@ class FireStoreService {
       return hives;
     });
   }
+
+  Stream<List<HiveModel>> fetchParticalHives(String uid) {
+    return _firestore
+        .collection('hives')
+        .where('userID', isEqualTo: uid)
+        .snapshots()
+        .map((event) {
+      List<HiveModel> hives = [];
+
+      for (var element in event.docs) {
+        hives.add(HiveModel.fromMap(element.data()));
+      }
+
+      return hives;
+    });
+  }
 }

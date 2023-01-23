@@ -1,14 +1,51 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+
+import 'package:traceebee_admin_app/models/hive_model.dart';
 import 'package:traceebee_admin_app/presentation/home-screen/beekeepers_info_screen.dart';
 import 'package:traceebee_admin_app/presentation/widgets/custom_scaffold.dart';
-import 'package:traceebee_admin_app/repo/beekeepers-repo/beekeepers_entity.dart';
+import 'package:traceebee_admin_app/services/firestore_service.dart';
 import 'package:traceebee_admin_app/utlis/colors.dart';
 import 'package:traceebee_admin_app/utlis/text_styles.dart';
 
-class UserScreen extends StatelessWidget {
-  const UserScreen({super.key, required this.beeKeepersEnitity});
-  final BeeKeepersEnitity beeKeepersEnitity;
+class UserScreen extends StatefulWidget {
+  final HiveModel hive;
+  const UserScreen({
+    Key? key,
+    required this.hive,
+  }) : super(key: key);
+
+  @override
+  State<UserScreen> createState() => _UserScreenState();
+}
+
+class _UserScreenState extends State<UserScreen> {
+  List<HiveData> hiveData = [];
+
+  void listenForChanges() {
+    FireStoreService().fetchParticalHives(widget.hive.userID!).listen((event) {
+      log(event.toString());
+      hiveData = List.from(
+        event.map(
+          (e) => HiveData(
+            'Hive ${e.hiveNumber}',
+            int.parse(e.amountHoney!),
+          ),
+        ),
+      );
+      setState(() {});
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    log(widget.hive.userID!);
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -20,11 +57,20 @@ class UserScreen extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             color: Colors.black,
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Image.asset(
-                beeKeepersEnitity.graphImage,
-              ),
-            ),
+                padding: const EdgeInsets.all(10.0),
+                child: SfCartesianChart(
+                  title: ChartTitle(
+                      text: 'Hive ${widget.hive.hiveNumber!}',
+                      textStyle: const TextStyle(color: Colors.white)),
+                  primaryXAxis: CategoryAxis(),
+                  series: <ChartSeries<HiveData, String>>[
+                    ColumnSeries<HiveData, String>(
+                        // Bind data source
+                        dataSource: hiveData,
+                        xValueMapper: (HiveData sales, _) => sales.year,
+                        yValueMapper: (HiveData sales, _) => sales.amount)
+                  ],
+                )),
           ),
           Container(
             height: 400.h,
@@ -39,7 +85,7 @@ class UserScreen extends StatelessWidget {
                     height: 30.h,
                   ),
                   Text(
-                    "USER ${beeKeepersEnitity.name}",
+                    "USER ${widget.hive.userName}",
                     style: headingStyle,
                   ),
                   SizedBox(
@@ -185,4 +231,10 @@ class UserScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+class HiveData {
+  HiveData(this.year, this.amount);
+  final String year;
+  final int amount;
 }
