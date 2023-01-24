@@ -143,6 +143,7 @@ class CustomScaffold extends StatelessWidget {
                               ),
                               InkWell(
                                 onTap: () {
+                                  homeState.setMenuStatetoClosed();
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -160,6 +161,7 @@ class CustomScaffold extends StatelessWidget {
                               ),
                               InkWell(
                                 onTap: () {
+                                  homeState.setMenuStatetoClosed();
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -178,6 +180,7 @@ class CustomScaffold extends StatelessWidget {
                               ),
                               InkWell(
                                 onTap: () {
+                                  homeState.setMenuStatetoClosed();
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -196,6 +199,7 @@ class CustomScaffold extends StatelessWidget {
                               ),
                               InkWell(
                                 onTap: () {
+                                  homeState.setMenuStatetoClosed();
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(

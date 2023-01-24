@@ -15,6 +15,10 @@ class HomeProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+  setMenuStatetoClosed() {
+    menuState = MenuState.closed;
+    notifyListeners();
+  }
 
   List<BeeKeepersEnitity> beeKeepersList = [
     BeeKeepersEnitity(
