@@ -45,7 +45,7 @@ class StingLessBeeInfoScreen extends StatelessWidget {
             ],
           ),
           Container(
-            height: 350.h,
+            height: 400.h,
             width: MediaQuery.of(context).size.width,
             color: lightgreenColor,
             child: Padding(

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:traceebee_admin_app/presentation/home-screen/about_us_screen.dart';
+import 'package:traceebee_admin_app/presentation/home-screen/beekeepers_info_screen.dart';
+import 'package:traceebee_admin_app/presentation/home-screen/stingless_bee_info_screen.dart';
 import 'package:traceebee_admin_app/presentation/widgets/custom_info_container.dart';
 import 'package:traceebee_admin_app/presentation/widgets/custom_scaffold.dart';
 import 'package:traceebee_admin_app/utlis/text_styles.dart';
@@ -54,18 +57,38 @@ class HomeScreen extends StatelessWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const [
-              CustomInfoContainer(
-                image: "assets/images/home_image.png",
-                title: "STINGLESS BEE HONEY",
-                desc: "Information of honey from stingless Bess.",
-                color: Color(0xff595791),
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const StingLessBeeInfoScreen(),
+                    ),
+                  );
+                },
+                child: const CustomInfoContainer(
+                  image: "assets/images/home_image.png",
+                  title: "STINGLESS BEE HONEY",
+                  desc: "Information of honey from stingless Bess.",
+                  color: Color(0xff595791),
+                ),
               ),
-              CustomInfoContainer(
-                image: "assets/images/info.png",
-                title: "ABOUT US",
-                desc: "Information about TraceBee Webapp",
-                color: Color(0xff68CE58),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const AboutUsScreen(),
+                    ),
+                  );
+                },
+                child: const CustomInfoContainer(
+                  image: "assets/images/info.png",
+                  title: "ABOUT US",
+                  desc: "Information about TraceBee Webapp",
+                  color: Color(0xff68CE58),
+                ),
               ),
             ],
           ),
@@ -73,6 +96,14 @@ class HomeScreen extends StatelessWidget {
             height: 20.h,
           ),
           InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const BeeKeepersInfoScreen(),
+                ),
+              );
+            },
             child: Container(
               height: 155.h,
               width: 340.w,
