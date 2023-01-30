@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:traceebee_admin_app/models/hive_model.dart';
+import 'package:traceebee_admin_app/models/user_model.dart';
 import 'package:traceebee_admin_app/presentation/widgets/custom_scaffold.dart';
 import 'package:traceebee_admin_app/services/firestore_service.dart';
-import 'package:traceebee_admin_app/utlis/extensions.dart';
 import 'package:traceebee_admin_app/utlis/text_styles.dart';
 
 import '../user-screens/user_screen.dart';
@@ -18,59 +15,34 @@ class BeeKeepersInfoScreen extends StatefulWidget {
 }
 
 class _BeeKeepersInfoScreenState extends State<BeeKeepersInfoScreen> {
-  Map<String, List<HiveModel>> filteredHives = {};
-
-  List<HiveModel> beeKeepersList = [];
-
-  bool isLoading = false;
-
-  void fetchData() async {
-    setState(() => isLoading = true);
-    filteredHives = await FireStoreService().fetch();
-    filteredHives.forEach((key, value) {
-      beeKeepersList.add(HiveModel(
-          userID: key,
-          hiveNumber: value.length.toString(),
-          createdAt: value.last.createdAt,
-          driveLink: value.last.driveLink,
-          location: value.last.location,
-          userName: value.last.userName,
-          amountHoney: value
-              .fold(
-                  0,
-                  (previousValue, element) =>
-                      previousValue + int.parse(element.amountHoney!))
-              .toString()));
-    });
-    setState(() => isLoading = false);
-  }
-
   @override
   void initState() {
     super.initState();
-    fetchData();
+    // fetchData();
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      body: RefreshIndicator(
-        onRefresh: () async {
-          fetchData();
-        },
-        child: SingleChildScrollView(
-          child: SizedBox(
+      body: SingleChildScrollView(
+        child: SizedBox(
             height: MediaQuery.of(context).size.height,
-            child: isLoading
-                ? const Center(
+            child: StreamBuilder<List<UserModel>>(
+              stream: FireStoreService().fetchUsers(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
                     child: CircularProgressIndicator(),
-                  )
-                : Column(
-                    children: List.generate(beeKeepersList.length, (index) {
+                  );
+                }
+                if (snapshot.hasData) {
+                  var users = snapshot.data;
+                  return Column(
+                    children: List.generate(users!.length, (index) {
                       // log(beeKeepersList
                       //     .groupingBy(beeKeepersList[index].userID!)
                       //     .toString());
-                      final hive = beeKeepersList[index];
+                      final user = users[index];
                       return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 1.w),
                         child: InkWell(
@@ -78,7 +50,7 @@ class _BeeKeepersInfoScreenState extends State<BeeKeepersInfoScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => UserScreen(hive: hive),
+                                builder: (_) => UserScreen(hive: user),
                               ),
                             );
                           },
@@ -109,7 +81,7 @@ class _BeeKeepersInfoScreenState extends State<BeeKeepersInfoScreen> {
                                         SizedBox(
                                           width: 180,
                                           child: Text(
-                                            "USER : ${hive.userName}",
+                                            "USER : ${user.name}",
                                             style: subHeadingStyle,
                                             overflow: TextOverflow.clip,
                                           ),
@@ -118,28 +90,39 @@ class _BeeKeepersInfoScreenState extends State<BeeKeepersInfoScreen> {
                                           height: 10.h,
                                         ),
                                         Text(
-                                          "No. of Hives: ${hive.hiveNumber}",
+                                          "No. of Hives: ${user.hiveCount}",
                                           style: subHeadingStyle,
                                         ),
                                         SizedBox(
                                           height: 10.h,
                                         ),
                                         Text(
-                                          hive.createdAt!,
+                                          user.createdAt!,
                                           style: subHeadingStyle,
                                         ),
                                         SizedBox(
                                           height: 10.h,
                                         ),
-                                        Text(
-                                          hive.amountHoney ?? '0',
-                                          style: subHeadingStyle,
+                                        Row(
+                                          children: [
+                                            Text(
+                                              user.totalAmountOfHoney ?? '0',
+                                              style: subHeadingStyle,
+                                            ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              'ml',
+                                              style: subHeadingStyle,
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
                                     const Spacer(),
                                     Image.network(
-                                      hive.driveLink!,
+                                      user.profileImage!,
                                       height: 130.h,
                                       width: 150.w,
                                       fit: BoxFit.cover,
@@ -152,9 +135,13 @@ class _BeeKeepersInfoScreenState extends State<BeeKeepersInfoScreen> {
                         ),
                       );
                     }),
-                  ),
-          ),
-        ),
+                  );
+                }
+                return const Center(
+                  child: Text('Something went wrong'),
+                );
+              },
+            )),
       ),
 
       // body: Consumer<HomeProvider>(

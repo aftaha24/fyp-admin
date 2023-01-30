@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:traceebee_admin_app/models/user_model.dart';
 import 'package:traceebee_admin_app/utlis/extensions.dart';
 
 import '../models/hive_model.dart';
@@ -17,6 +18,17 @@ class FireStoreService {
       }
 
       return hives;
+    });
+  }
+
+  Stream<List<UserModel>> fetchUsers() {
+    return _firestore.collection('users').snapshots().map((event) {
+      List<UserModel> users = [];
+      for (var user in event.docs) {
+        users.add(UserModel.fromMap(user.data()));
+      }
+
+      return users;
     });
   }
 
