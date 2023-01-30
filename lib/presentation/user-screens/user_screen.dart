@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'package:traceebee_admin_app/models/hive_model.dart';
+import 'package:traceebee_admin_app/models/user_model.dart';
 import 'package:traceebee_admin_app/presentation/home-screen/beekeepers_info_screen.dart';
 import 'package:traceebee_admin_app/presentation/widgets/custom_scaffold.dart';
 import 'package:traceebee_admin_app/services/firestore_service.dart';
@@ -12,7 +13,7 @@ import 'package:traceebee_admin_app/utlis/colors.dart';
 import 'package:traceebee_admin_app/utlis/text_styles.dart';
 
 class UserScreen extends StatefulWidget {
-  final HiveModel hive;
+  final UserModel hive;
   const UserScreen({
     Key? key,
     required this.hive,
@@ -26,7 +27,7 @@ class _UserScreenState extends State<UserScreen> {
   List<HiveData> hiveData = [];
 
   void listenForChanges() {
-    FireStoreService().fetchParticalHives(widget.hive.userID!).listen((event) {
+    FireStoreService().fetchParticalHives(widget.hive.uid!).listen((event) {
       log(event.toString());
       hiveData = List.from(
         event.map(
@@ -43,7 +44,7 @@ class _UserScreenState extends State<UserScreen> {
   @override
   void initState() {
     super.initState();
-    log(widget.hive.userID!);
+    log(widget.hive.uid!);
     listenForChanges();
   }
 
@@ -64,7 +65,7 @@ class _UserScreenState extends State<UserScreen> {
                     Colors.teal,
                   ],
                   title: ChartTitle(
-                      text: 'Hive ${widget.hive.hiveNumber!}',
+                      text: 'Hive ${widget.hive.hiveCount!}',
                       textStyle: const TextStyle(color: Colors.white)),
                   primaryXAxis: CategoryAxis(),
                   series: <ChartSeries<HiveData, String>>[
@@ -90,7 +91,7 @@ class _UserScreenState extends State<UserScreen> {
                     height: 30.h,
                   ),
                   Text(
-                    "USER ${widget.hive.userName}",
+                    "USER ${widget.hive.name}",
                     style: headingStyle,
                   ),
                   SizedBox(
