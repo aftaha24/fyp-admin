@@ -4,6 +4,7 @@ import 'package:traceebee_admin_app/models/user_model.dart';
 import 'package:traceebee_admin_app/presentation/widgets/custom_scaffold.dart';
 import 'package:traceebee_admin_app/services/firestore_service.dart';
 import 'package:traceebee_admin_app/utlis/text_styles.dart';
+import 'package:traceebee_admin_app/utlis/utility.dart';
 
 import '../user-screens/user_screen.dart';
 
@@ -39,20 +40,21 @@ class _BeeKeepersInfoScreenState extends State<BeeKeepersInfoScreen> {
                   var users = snapshot.data;
                   return Column(
                     children: List.generate(users!.length, (index) {
-                      // log(beeKeepersList
-                      //     .groupingBy(beeKeepersList[index].userID!)
-                      //     .toString());
                       final user = users[index];
                       return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 1.w),
                         child: InkWell(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => UserScreen(hive: user),
-                              ),
-                            );
+                            if (user.hiveCount == '0') {
+                              showSnackBar(context, text: 'No Hives yet');
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => UserScreen(hive: user),
+                                ),
+                              );
+                            }
                           },
                           child: Container(
                             height: 155.h,
@@ -122,8 +124,7 @@ class _BeeKeepersInfoScreenState extends State<BeeKeepersInfoScreen> {
                                     ),
                                     const Spacer(),
                                     Image.network(
-                                      'https://firebasestorage.googleapis.com/v0/b/tracebee-128c8.appspot.com/o/WhatsApp%20Image%202023-01-30%20at%2010.39.25%20PM.jpeg?alt=media&token=38d0dc08-326a-4783-9bc6-e2ed44ae418d',
-                                      // user.profileImage!,
+                                      user.profileImage!,
                                       height: 130.h,
                                       width: 150.w,
                                       fit: BoxFit.cover,
