@@ -25,125 +25,122 @@ class _BeeKeepersInfoScreenState extends State<BeeKeepersInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      body: SingleChildScrollView(
-        child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: StreamBuilder<List<UserModel>>(
-              stream: FireStoreService().fetchUsers(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (snapshot.hasData) {
-                  var users = snapshot.data;
-                  return Column(
-                    children: List.generate(users!.length, (index) {
-                      final user = users[index];
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 1.w),
-                        child: InkWell(
-                          onTap: () {
-                            if (user.hiveCount == '0') {
-                              showSnackBar(context, text: 'No Hives yet');
-                            } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => UserScreen(hive: user),
-                                ),
-                              );
-                            }
-                          },
-                          child: Container(
-                            height: 155.h,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                color: Colors.black,
-                                width: 2.w,
-                              ),
+      body: StreamBuilder<List<UserModel>>(
+        stream: FireStoreService().fetchUsers(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.hasData) {
+            var users = snapshot.data;
+            return SingleChildScrollView(
+              child: Column(
+                children: List.generate(users!.length, (index) {
+                  final user = users[index];
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 1.w),
+                    child: InkWell(
+                      onTap: () {
+                        if (user.hiveCount == '0') {
+                          showSnackBar(context, text: 'No Hives yet');
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => UserScreen(hive: user),
                             ),
-                            child: Center(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 10.w, vertical: 10.h),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                          );
+                        }
+                      },
+                      child: Container(
+                        height: 155.h,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 2.w,
+                          ),
+                        ),
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10.w, vertical: 10.h),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                    SizedBox(
+                                      height: 10.h,
+                                    ),
+                                    SizedBox(
+                                      width: 180,
+                                      child: Text(
+                                        "USER : ${user.name}",
+                                        style: subHeadingStyle,
+                                        overflow: TextOverflow.clip,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10.h,
+                                    ),
+                                    Text(
+                                      "No. of Hives: ${user.hiveCount}",
+                                      style: subHeadingStyle,
+                                    ),
+                                    SizedBox(
+                                      height: 10.h,
+                                    ),
+                                    Text(
+                                      user.createdAt!,
+                                      style: subHeadingStyle,
+                                    ),
+                                    SizedBox(
+                                      height: 10.h,
+                                    ),
+                                    Row(
                                       children: [
-                                        SizedBox(
-                                          height: 10.h,
-                                        ),
-                                        SizedBox(
-                                          width: 180,
-                                          child: Text(
-                                            "USER : ${user.name}",
-                                            style: subHeadingStyle,
-                                            overflow: TextOverflow.clip,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 10.h,
-                                        ),
                                         Text(
-                                          "No. of Hives: ${user.hiveCount}",
+                                          user.totalAmountOfHoney ?? '0',
                                           style: subHeadingStyle,
                                         ),
-                                        SizedBox(
-                                          height: 10.h,
+                                        const SizedBox(
+                                          width: 5,
                                         ),
                                         Text(
-                                          user.createdAt!,
+                                          'ml',
                                           style: subHeadingStyle,
-                                        ),
-                                        SizedBox(
-                                          height: 10.h,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              user.totalAmountOfHoney ?? '0',
-                                              style: subHeadingStyle,
-                                            ),
-                                            const SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              'ml',
-                                              style: subHeadingStyle,
-                                            ),
-                                          ],
                                         ),
                                       ],
                                     ),
-                                    const Spacer(),
-                                    Image.network(
-                                      user.profileImage!,
-                                      height: 130.h,
-                                      width: 150.w,
-                                      fit: BoxFit.cover,
-                                    ),
                                   ],
                                 ),
-                              ),
+                                const Spacer(),
+                                Image.network(
+                                  user.profileImage!,
+                                  height: 130.h,
+                                  width: 150.w,
+                                  fit: BoxFit.cover,
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                      );
-                    }),
+                      ),
+                    ),
                   );
-                }
-                return const Center(
-                  child: Text('Something went wrong'),
-                );
-              },
-            )),
+                }),
+              ),
+            );
+          }
+          return const Center(
+            child: Text('Something went wrong'),
+          );
+        },
       ),
 
       // body: Consumer<HomeProvider>(
